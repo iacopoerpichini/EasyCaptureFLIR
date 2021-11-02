@@ -13,6 +13,8 @@ def main():
     cap.set(cv2.CAP_PROP_EXPOSURE, -1)  # -1 sets exposure_time to auto
     cap.set(cv2.CAP_PROP_GAIN, -1)  # -1 sets gain to auto
 
+    date = datetime.now().strftime("%Y_%m_%d-%I:%M:%S_%p")
+    count = 0
     while True:
         ret, frame = cap.read()
         #frame = cv2.cvtColor(frame, cv2.COLOR_RGB)  # for RGB camera demosaicing
@@ -26,9 +28,9 @@ def main():
         if key == ord("x"):
             # Save them
             print("Saving images to: %s" % output_dir)
-            date = datetime.now().strftime("%Y_%m_%d-%I:%M:%S_%p")
-            date = date + 'n' +'.png'
-            cv2.imwrite(os.path.join(output_dir, date),frame)
+            path = os.path.join(date, '%08d.jpg' % count)
+            count += 1
+            cv2.imwrite(os.path.join(output_dir, path),frame)
 
     cap.release()
     cv2.destroyAllWindows()
